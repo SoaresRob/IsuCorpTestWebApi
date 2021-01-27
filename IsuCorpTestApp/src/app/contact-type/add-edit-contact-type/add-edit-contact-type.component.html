@@ -1,0 +1,16 @@
+<form class="row g-3 was-validated" #form="ngForm" (submit)="onSubmit(form)">
+    
+    <input type="hidden" name="contactTypeId"
+        [value]="service.formData.contactTypeId">
+
+    <div class="col-sm-12 col-lg-4">
+        <label class="form-label">Contact Name</label>
+        <input class="form-control" [(ngModel)]="service.formData.contactTypeName" name="contactTypeName" #contactTypeName="ngModel"
+        placeholder="Enter Contact Type Name" required maxlength="150">
+    </div>
+
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary me-2" [disabled]="form.invalid">Submit</button>
+        <button class="btn btn-secondary" routerLink="/contactType">Cancel</button>
+    </div>
+</form>

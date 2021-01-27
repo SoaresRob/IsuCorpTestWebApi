@@ -1,0 +1,25 @@
+<button type="button" 
+    class="btn btn-primary" 
+    routerLink="/addEditContactType/0">
+    Create Contact Type
+</button>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+        <th scope="col">#</th>
+        <th scope="col">Contact Type Name</th>
+        <th scope="col">Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let dataItem of service.list">
+            <td>{{dataItem.contactTypeId}}</td>
+            <td>{{dataItem.contactTypeName}}</td>
+            <td>
+                <button type="button" class="btn btn-light mr-1" [routerLink]="['/addEditContactType/', dataItem.contactTypeId]" >Edit</button>
+                <button type="button" class="btn btn-light mr-1" (click)="onDelete(dataItem.contactTypeId)">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+  </table>

@@ -1,0 +1,39 @@
+<form class="row g-3 was-validated" #form="ngForm">  
+
+  <input  type="hidden" [(ngModel)]="contactService.formData.contactId" name="contactId" #contactId="ngModel">
+
+  <div class="col-sm-12 col-lg-4">
+      <label class="form-label">Contact Name</label>
+      <input class="form-control" (blur)="onBlur()" [(ngModel)]="contactService.formData.contactName" name="contactName" #contactName="ngModel"
+      placeholder="Enter Contact Name" required maxlength="150">
+  </div>
+
+  <div class="col-sm-12 col-lg-4">
+    <label class="form-label">ContactType</label>
+    <select class="form-select" required [(ngModel)]="contactService.formData.contactTypeId" name="contactTypeId" #contactName="ngModel" >
+        <option value="">Select</option>
+        <option  *ngFor="let data of ContactTypeList" value={{data.contactTypeId}}>
+            {{data.contactTypeName}}
+        </option>
+    </select>
+  </div>
+
+  <div class="col-sm-12 col-lg-2">
+      <label class="form-label">Birth Date</label>
+      <input type="date" class="form-control" [(ngModel)]="contactService.formData.birthDate" name="birthDate" #contactName="ngModel" required>
+  </div>
+
+  <div class="col-sm-12 col-lg-2">
+      <label class="form-label">Phone Number</label>
+      <input class="form-control" [(ngModel)]="contactService.formData.phoneNumber" name="phoneNumber" #contactName="ngModel" required>
+  </div>
+
+  <div class="col-12">
+    <angular-editor name="ReservationDetails" [(ngModel)]="ReservationDetails" [config]="config"></angular-editor>
+  </div>
+
+  <div class="col-12">
+      <button type="submit" class="btn btn-primary me-2" (click)="sendReservation()" >Send</button>
+      <button class="btn btn-secondary" routerLink="/reservation">Cancel</button>
+  </div>
+</form>

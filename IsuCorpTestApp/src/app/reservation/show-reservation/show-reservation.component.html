@@ -1,0 +1,42 @@
+<button type="button" 
+    class="btn btn-primary" 
+    routerLink="/addEditReservation/0"
+    i18n>
+    Create Reservation
+</button>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+        <th (click)="sort('contactId')" scope="col">#<i class="bi bi-arrow-down-up"></i></th>
+        <th (click)="sort('contactName')" scope="col">Contact Name<i class="bi bi-arrow-down-up"></i></th>
+        <th (click)="sort('phoneNumber')" scope="col">Phone Number<i class="bi bi-arrow-down-up"></i></th>
+        <th (click)="sort('birthDate')" scope="col">Birth Date<i class="bi bi-arrow-down-up"></i></th>
+        <th (click)="sort('contactTypeId')" scope="col">Contact Type<i class="bi bi-arrow-down-up"></i></th>
+        <th scope="col">Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let dataItem of ReservationList
+        | paginate: { itemsPerPage: 10, currentPage: page } 
+        | orderBy: key: reverse">
+            <td>{{dataItem.revervationId}}</td>
+            <td>{{dataItem.contactName}}</td>
+            <td>{{dataItem.phoneNumber}}</td>
+            <td>{{dataItem.birthDate}}</td>
+            <td>{{dataItem.contactTypeName}}</td>
+            <td>
+                <button type="button" class="btn btn-light mr-1" [routerLink]="['/addEditReservation/', dataItem.revervationId]" >Edit</button>
+                <button type="button" class="btn btn-light mr-1" (click)="deleteClick(dataItem)">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li>
+            <pagination-controls (pageChange)="page = $event"></pagination-controls>
+        </li>
+    </ul>
+  </nav>

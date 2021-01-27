@@ -1,0 +1,32 @@
+<form class="row g-3 was-validated" #form="ngForm" (submit)="onSubmit(form)">
+    <div class="col-sm-12 col-lg-4">
+        <label class="form-label">Contact Name</label>
+        <input class="form-control" [(ngModel)]="service.formData.contactName" name="contactName" #contactName="ngModel"
+        placeholder="Enter Contact Name" required maxlength="150">
+    </div>
+
+      <div class="col-sm-12 col-lg-4">
+        <label class="form-label">ContactType</label>
+        <select class="form-select" required [(ngModel)]="service.formData.contactTypeId" name="contactTypeId" #contactName="ngModel" >
+            <option value="">Select</option>
+            <option  *ngFor="let data of ContactTypeList" value={{data.contactTypeId}}>
+               {{data.contactTypeName}}
+            </option>
+        </select>
+      </div>
+
+    <div class="col-sm-12 col-lg-2">
+        <label class="form-label">Birth Date</label>
+        <input type="date" class="form-control" [(ngModel)]="service.formData.birthDate" name="birthDate" #contactName="ngModel" required>
+    </div>
+
+    <div class="col-sm-12 col-lg-2">
+        <label class="form-label">Phone Number</label>
+        <input class="form-control" [(ngModel)]="service.formData.phoneNumber" name="phoneNumber" #contactName="ngModel" required>
+    </div>
+
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary me-2" [disabled]="form.invalid">Submit</button>
+        <button class="btn btn-secondary" routerLink="/contact">Cancel</button>
+    </div>
+</form>

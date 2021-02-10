@@ -4,6 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { ContactService } from 'src/app/shared/contact.service';
 import {ToastrService} from 'ngx-toastr';
+import { Contact } from 'src/app/shared/contact.model';
 
 
 @Component({
@@ -23,6 +24,7 @@ export class AddEditReservationComponent implements OnInit {
   ReservationDetails: string="";
 
   ContactTypeList: any=[];
+  date: Date = new Date();
 
   constructor(private service: SharedService, private route: ActivatedRoute, 
     public contactService: ContactService, private toastr:ToastrService) {
@@ -30,6 +32,7 @@ export class AddEditReservationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.contactService.formData = new Contact();
     this.loadContactTypeList();
     if(this.RevervationId != "0")
       this.loadReservationDetails();
@@ -46,12 +49,15 @@ export class AddEditReservationComponent implements OnInit {
           
       },
       err => { 
-        console.log(err);
-      });
+        this.toastr.error(err.error, 'Reservation');
+       }
+      );
   }
 
   loadReservationDetails(){
+    console.log(this.RevervationId);
     this.service.getReservation(this.RevervationId).subscribe((data:any)=>{
+      this.contactService.formData = Object.assign({},data)
       this.RevervationId = data.revervationId;
       this.ContactId = data.contactId;
       this.ContactName =  data.contactName;
@@ -59,7 +65,11 @@ export class AddEditReservationComponent implements OnInit {
       this.BirthDate = data.BirthDate;
       this.ContactTypeId = data.contactTypeId;
       this.ReservationDetails = data.reservationDetails;
-    });
+    },
+    err => { 
+      this.toastr.error(err.error, 'Reservation');
+     }
+    );
   }
 
   loadContactTypeList(){
@@ -90,13 +100,16 @@ export class AddEditReservationComponent implements OnInit {
                   (data: any) => { 
                     this.contactService.formData = Object.assign({},data)
                   },
-                  err => { console.log(err); }
+                  err => { 
+                    this.toastr.error(err.error, 'Reservation');
+                   }
                   );
               }
           },
           err => { 
-            console.log(err);
-          });
+            this.toastr.error(err.error, 'Reservation');
+           }
+          );
       }    
   }
 
@@ -126,16 +139,21 @@ export class AddEditReservationComponent implements OnInit {
                             {
                               this.toastr.success('Submitted successfully', 'Reservation');
                             },
-                           err => { alert(err)}
+                            err => { 
+                              this.toastr.error(err.error, 'Reservation');
+                             }
                            );    
                   },
-                  err => { console.log(err); }
+                  err => { 
+                    this.toastr.error(err.error, 'Reservation');
+                   }
                   );
               }
           },
           err => { 
-            console.log(err);
-          });
+            this.toastr.error(err.error, 'Reservation');
+           }
+          );
       }
       else
       {
@@ -153,7 +171,9 @@ export class AddEditReservationComponent implements OnInit {
                 {
                   this.toastr.success('Submitted successfully', 'Reservation');
                 },
-               err => { alert(err)}
+                err => { 
+                  this.toastr.error(err.error, 'Reservation');
+                 }
                );    
       }    
   }
@@ -173,7 +193,9 @@ export class AddEditReservationComponent implements OnInit {
           {
             this.toastr.success('Updated successfully', 'Contact');
           },
-        err => { console.log(err);}
+          err => { 
+            this.toastr.error(err.error, 'Reservation');
+           }
         );
   }
 

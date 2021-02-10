@@ -20,6 +20,8 @@ export class AddEditContactTypeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.service.formData = new ContactType();
+
     if(this.ContactTypeId != 0)
       this.populateForm(this.ContactTypeId);
   }
@@ -29,8 +31,12 @@ export class AddEditContactTypeComponent implements OnInit {
       (data: any)=>
       { 
         this.service.formData = Object.assign({},data)
-      });
-
+      },
+      err => { 
+        this.toastr.error(err.error, 'Contact Type');
+       }
+      );
+      
   }
 
   onSubmit(form: NgForm) {
@@ -46,7 +52,9 @@ export class AddEditContactTypeComponent implements OnInit {
         this.resetForm(form);
         this.toastr.success('Submitted successfully', 'Contact Type')
       },
-      err => { console.log(err); }
+      err => { 
+        this.toastr.error(err.error, 'Contact Type');
+       }
     );
   }
 
@@ -56,7 +64,9 @@ export class AddEditContactTypeComponent implements OnInit {
         this.resetForm(form);
         this.toastr.success('Updated successfully', 'Contact Type')
       },
-      err => { console.log(err); }
+      err => { 
+        this.toastr.error(err.error, 'Contact Type');
+       }
     );
   }
 

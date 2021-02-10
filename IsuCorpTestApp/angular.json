@@ -63,8 +63,8 @@
             },
             "fr":{
               "aot": true,
-              "outputPath":"dist/under-c-fr/",
-              "i18nFile":"src/messages.xlf",
+              "outputPath":"dist/IsuCorpTestApp/",
+              "i18nFile":"locale/messages.fr.xlf",
               "i18nFormat": "xlf",
               "i18nLocale": "fr",
               "i18nMissingTranslation": "error"

@@ -1,18 +1,11 @@
-using IsuCorpTest.Context;
+using IsuCorpTestData.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace IsuCorpTest
 {
@@ -28,6 +21,8 @@ namespace IsuCorpTest
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IsuCorpTestServices.IContactType<IsuCorpTestData.Models.ContactType>, IsuCorpTestBusiness.ContactType>();
+            services.AddTransient<IsuCorpTestServices.IContact<IsuCorpTestData.Models.Contact>, IsuCorpTestBusiness.Contact>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -36,7 +31,7 @@ namespace IsuCorpTest
             });
 
             services.AddDbContext<IsuCorpTestContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("DevConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DevConnection")));
 
             services.AddCors();
         }

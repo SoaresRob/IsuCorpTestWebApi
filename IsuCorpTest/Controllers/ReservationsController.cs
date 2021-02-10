@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using IsuCorpTest.Context;
-using IsuCorpTest.Models;
 
 namespace IsuCorpTest.Controllers
 {
@@ -14,29 +10,31 @@ namespace IsuCorpTest.Controllers
     [ApiController]
     public class ReservationsController : ControllerBase
     {
-        private readonly IsuCorpTestContext _context;
+        private readonly IsuCorpTestData.Context.IsuCorpTestContext context;
+        private readonly IsuCorpTestBusiness.Reservation reservationBusiness;
 
-        public ReservationsController(IsuCorpTestContext context)
+        public ReservationsController(IsuCorpTestData.Context.IsuCorpTestContext context)
         {
-            _context = context;
+            this.context = context;
+            reservationBusiness = new IsuCorpTestBusiness.Reservation(context);
         }
 
         // GET: api/Reservations
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Reservation>>> GetReservation()
+        public async Task<IEnumerable<IsuCorpTestData.Models.Reservation>> GetReservation()
         {
-            return await _context.Reservation.ToListAsync();
+            return await reservationBusiness.GetAll();
         }
 
         // GET: api/Reservations/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Reservation>> GetReservation(long id)
+        public async Task<ActionResult<IsuCorpTestData.Models.Reservation>> GetReservation(long id)
         {
-            var reservation = await _context.Reservation.FindAsync(id);
+            var reservation = await reservationBusiness.GetByIdAsync(id);
 
             if (reservation == null)
             {
-                return NotFound();
+                return NotFound("Reservation not found");
             }
 
             return reservation;
@@ -45,29 +43,17 @@ namespace IsuCorpTest.Controllers
         // PUT: api/Reservations/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutReservation(long id, Reservation reservation)
+        public async Task<IActionResult> PutReservation(long id, IsuCorpTestData.Models.Reservation reservation)
         {
             if (id != reservation.RevervationId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(reservation).State = EntityState.Modified;
-
-            try
+            if (ModelState.IsValid)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ReservationExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                reservationBusiness.Update(reservation);
+                await reservationBusiness.SaveChangeAsync();
             }
 
             return NoContent();
@@ -76,10 +62,13 @@ namespace IsuCorpTest.Controllers
         // POST: api/Reservations
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Reservation>> PostReservation(Reservation reservation)
+        public async Task<ActionResult<IsuCorpTestData.Models.Reservation>> PostReservation(IsuCorpTestData.Models.Reservation reservation)
         {
-            _context.Reservation.Add(reservation);
-            await _context.SaveChangesAsync();
+            if (ModelState.IsValid)
+            {
+                reservationBusiness.Add(reservation);
+                await reservationBusiness.SaveChangeAsync();
+            }
 
             return CreatedAtAction("GetReservation", new { id = reservation.RevervationId }, reservation);
         }
@@ -88,21 +77,22 @@ namespace IsuCorpTest.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReservation(long id)
         {
-            var reservation = await _context.Reservation.FindAsync(id);
+            var reservation = await reservationBusiness.GetByIdAsync(id);
+
             if (reservation == null)
             {
-                return NotFound();
+                return NotFound("Reservation not found");
             }
 
-            _context.Reservation.Remove(reservation);
-            await _context.SaveChangesAsync();
+            reservationBusiness.Remove(reservation);
+            await reservationBusiness.SaveChangeAsync();
 
             return NoContent();
         }
 
-        private bool ReservationExists(long id)
-        {
-            return _context.Reservation.Any(e => e.RevervationId == id);
-        }
+        //private bool ReservationExists(long id)
+        //{
+        //    return _context.Reservation.Any(e => e.RevervationId == id);
+        //}
     }
 }

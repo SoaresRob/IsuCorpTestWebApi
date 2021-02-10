@@ -34,7 +34,7 @@ export class ContactService {
   }
 
   selectItemById(id: number) {
-    return this.http.get(`${this.APIUrl}/${id}`);
+    return this.http.get(`${this.APIUrl}/${id},${null}`);
   }
   selectItemByName(name: string) {
     return this.http.get(`${this.APIUrl}/${0},${name}`);

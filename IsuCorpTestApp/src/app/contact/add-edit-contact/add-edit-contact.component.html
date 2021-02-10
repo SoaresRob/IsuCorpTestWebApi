@@ -1,32 +1,41 @@
 <form class="row g-3 was-validated" #form="ngForm" (submit)="onSubmit(form)">
-    <div class="col-sm-12 col-lg-4">
-        <label class="form-label">Contact Name</label>
-        <input class="form-control" [(ngModel)]="service.formData.contactName" name="contactName" #contactName="ngModel"
-        placeholder="Enter Contact Name" required maxlength="150">
+
+    <div class="col-lg-6" i18n>
+        <h3>Create Contact</h3>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+    <div class="col-lg-4" i18n>
+        <button class="btn btn-secondary float-right" routerLink="/contact">Contact List</button>
     </div>
 
-      <div class="col-sm-12 col-lg-4">
-        <label class="form-label">ContactType</label>
-        <select class="form-select" required [(ngModel)]="service.formData.contactTypeId" name="contactTypeId" #contactName="ngModel" >
-            <option value="">Select</option>
+    <div class="form-floating col-sm-12 col-lg-4">
+        <input class="form-control" id="contactName" [(ngModel)]="service.formData.contactName" name="contactName" #contactName="ngModel"
+        placeholder="Enter Contact Name" required maxlength="150">
+        <label for="contactName">Contact Name</label>
+    </div>
+
+      <div class="form-floating col-sm-12 col-lg-4">
+        <select class="form-select" id="contactTypeId" required [(ngModel)]="service.formData.contactTypeId" name="contactTypeId" #contactName="ngModel" >
             <option  *ngFor="let data of ContactTypeList" value={{data.contactTypeId}}>
                {{data.contactTypeName}}
             </option>
         </select>
+        <label for="contactTypeId">Contact Type</label>
       </div>
 
-    <div class="col-sm-12 col-lg-2">
-        <label class="form-label">Birth Date</label>
-        <input type="date" class="form-control" [(ngModel)]="service.formData.birthDate" name="birthDate" #contactName="ngModel" required>
+    <div class="form-floating col-sm-12 col-lg-2">
+        <input type="date" id="birthDate"  max="{{date | date:'yyyy-MM-dd'}}" class="form-control" [(ngModel)]="service.formData.birthDate" name="birthDate" #contactName="ngModel" required>
+        <label for="birthDate">Birth Date</label>
     </div>
 
-    <div class="col-sm-12 col-lg-2">
-        <label class="form-label">Phone Number</label>
-        <input class="form-control" [(ngModel)]="service.formData.phoneNumber" name="phoneNumber" #contactName="ngModel" required>
+    <div class="form-floating col-sm-12 col-lg-2">
+        <input class="form-control" type="number" id=phoneNumber [(ngModel)]="service.formData.phoneNumber" name="phoneNumber" #contactName="ngModel" required>
+        <label for="phoneNumber">Phone Number</label>
     </div>
 
     <div class="col-12">
-        <button type="submit" class="btn btn-primary me-2" [disabled]="form.invalid">Submit</button>
-        <button class="btn btn-secondary" routerLink="/contact">Cancel</button>
+        <button type="submit" class="btn btn-danger me-2 float-right" [disabled]="form.invalid">Submit</button>
     </div>
 </form>

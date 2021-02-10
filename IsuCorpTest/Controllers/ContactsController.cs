@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using IsuCorpTest.Context;
-using IsuCorpTest.Models;
 
 namespace IsuCorpTest.Controllers
 {
@@ -14,38 +10,42 @@ namespace IsuCorpTest.Controllers
     [ApiController]
     public class ContactsController : ControllerBase
     {
-        private readonly IsuCorpTestContext _context;
+        private readonly IsuCorpTestData.Context.IsuCorpTestContext context;
+        private readonly IsuCorpTestBusiness.Contact contactBusiness;
 
-        public ContactsController(IsuCorpTestContext context)
+        public ContactsController(IsuCorpTestData.Context.IsuCorpTestContext context)
         {
-            _context = context;
+            this.context = context;
+            contactBusiness = new IsuCorpTestBusiness.Contact(context);
         }
 
         // GET: api/Contacts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Contact>>> GetContact()
+        public async Task<IEnumerable<IsuCorpTestData.Models.Contact>> GetContact()
         {
-            return await _context.Contact.ToListAsync();
+            return await contactBusiness.GetAll();
         }
 
         // GET: api/Contacts/5
         [HttpGet("{id},{name}")]
-        public async Task<ActionResult<Contact>> GetContact(long id, string name = null)
+        public async Task<ActionResult<IsuCorpTestData.Models.Contact>> GetContact(long id, string name = null)
         {
-            var contact = new Contact();
+            var contact = new IsuCorpTestData.Models.Contact();
 
             if (id != 0)
             {
-                contact = await _context.Contact.FindAsync(id);
+                contact = await contactBusiness.GetByIdAsync(id);
             }
             else
             {
-                contact = _context.Contact.ToList().Where(w => w.ContactName == name).FirstOrDefault();
+                contact = contactBusiness.GetByName(name);
             }
 
             if (contact == null)
             {
-                return contact = new Contact { ContactId = 0};
+                return NotFound("Contact not found");
+
+                //return contact = new IsuCorpTestData.Models.Contact { ContactId = 0 };
             }
 
             return contact;
@@ -54,29 +54,17 @@ namespace IsuCorpTest.Controllers
         // PUT: api/Contacts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutContact(long id, Contact contact)
+        public async Task<IActionResult> PutContact(long id, IsuCorpTestData.Models.Contact contact)
         {
             if (id != contact.ContactId)
             {
-                return BadRequest();
+                return BadRequest("Bad Request");
             }
 
-            _context.Entry(contact).State = EntityState.Modified;
-
-            try
+            if (ModelState.IsValid)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ContactExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                contactBusiness.Update(contact);
+                await contactBusiness.SaveChangeAsync();
             }
 
             return NoContent();
@@ -85,10 +73,13 @@ namespace IsuCorpTest.Controllers
         // POST: api/Contacts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Contact>> PostContact(Contact contact)
+        public async Task<ActionResult<IsuCorpTestData.Models.Contact>> PostContact(IsuCorpTestData.Models.Contact contact)
         {
-            _context.Contact.Add(contact);
-            await _context.SaveChangesAsync();
+            if (ModelState.IsValid)
+            {
+                contactBusiness.Add(contact);
+                await contactBusiness.SaveChangeAsync();
+            }
 
             return CreatedAtAction("GetContact", new { id = contact.ContactId }, contact);
         }
@@ -97,21 +88,22 @@ namespace IsuCorpTest.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteContact(long id)
         {
-            var contact = await _context.Contact.FindAsync(id);
+            var contact = await contactBusiness.GetByIdAsync(id);
+
             if (contact == null)
             {
-                return NotFound();
+                return NotFound("Contact not found");
             }
 
-            _context.Contact.Remove(contact);
-            await _context.SaveChangesAsync();
+            contactBusiness.Remove(contact);
+            await contactBusiness.SaveChangeAsync();
 
             return NoContent();
         }
 
-        private bool ContactExists(long id)
-        {
-            return _context.Contact.Any(e => e.ContactId == id);
-        }
+        //private bool ContactExists(long id)
+        //{
+        //    return _context.Contact.Any(e => e.ContactId == id);
+        //}
     }
 }

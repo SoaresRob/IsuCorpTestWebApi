@@ -2245,6 +2245,61 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "IsuCorpTestBusiness/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.1",
+        "dependencies": {
+          "IsuCorpTestData": "1.0.0",
+          "IsuCorpTestRepository": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/IsuCorpTestBusiness.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/IsuCorpTestBusiness.dll": {}
+        }
+      },
+      "IsuCorpTestData/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.1",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.SqlServer": "5.0.2"
+        },
+        "compile": {
+          "bin/placeholder/IsuCorpTestData.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/IsuCorpTestData.dll": {}
+        }
+      },
+      "IsuCorpTestRepository/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.1",
+        "dependencies": {
+          "IsuCorpTestData": "1.0.0",
+          "IsuCorpTestServices": "1.0.0",
+          "Microsoft.EntityFrameworkCore.SqlServer": "5.0.2"
+        },
+        "compile": {
+          "bin/placeholder/IsuCorpTestRepository.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/IsuCorpTestRepository.dll": {}
+        }
+      },
+      "IsuCorpTestServices/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.1",
+        "dependencies": {
+          "IsuCorpTestData": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/IsuCorpTestServices.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/IsuCorpTestServices.dll": {}
+        }
       }
     }
   },
@@ -7598,10 +7653,34 @@
         "system.xml.xmlserializer.4.3.0.nupkg.sha512",
         "system.xml.xmlserializer.nuspec"
       ]
+    },
+    "IsuCorpTestBusiness/1.0.0": {
+      "type": "project",
+      "path": "../IsuCorpTestBusiness/IsuCorpTestBusiness.csproj",
+      "msbuildProject": "../IsuCorpTestBusiness/IsuCorpTestBusiness.csproj"
+    },
+    "IsuCorpTestData/1.0.0": {
+      "type": "project",
+      "path": "../IsuCorpTestData/IsuCorpTestData.csproj",
+      "msbuildProject": "../IsuCorpTestData/IsuCorpTestData.csproj"
+    },
+    "IsuCorpTestRepository/1.0.0": {
+      "type": "project",
+      "path": "../IsuCorpTestRepository/IsuCorpTestRepository.csproj",
+      "msbuildProject": "../IsuCorpTestRepository/IsuCorpTestRepository.csproj"
+    },
+    "IsuCorpTestServices/1.0.0": {
+      "type": "project",
+      "path": "../IsuCorpTestServices/IsuCorpTestServices.csproj",
+      "msbuildProject": "../IsuCorpTestServices/IsuCorpTestServices.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net5.0": [
+      "IsuCorpTestBusiness >= 1.0.0",
+      "IsuCorpTestData >= 1.0.0",
+      "IsuCorpTestRepository >= 1.0.0",
+      "IsuCorpTestServices >= 1.0.0",
       "Microsoft.EntityFrameworkCore >= 5.0.2",
       "Microsoft.EntityFrameworkCore.SqlServer >= 5.0.2",
       "Microsoft.EntityFrameworkCore.Sqlite >= 5.0.2",
@@ -7640,7 +7719,20 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Guest\\source\\repos\\IsuCorpTest\\IsuCorpTestBusiness\\IsuCorpTestBusiness.csproj": {
+              "projectPath": "C:\\Users\\Guest\\source\\repos\\IsuCorpTest\\IsuCorpTestBusiness\\IsuCorpTestBusiness.csproj"
+            },
+            "C:\\Users\\Guest\\source\\repos\\IsuCorpTest\\IsuCorpTestData\\IsuCorpTestData.csproj": {
+              "projectPath": "C:\\Users\\Guest\\source\\repos\\IsuCorpTest\\IsuCorpTestData\\IsuCorpTestData.csproj"
+            },
+            "C:\\Users\\Guest\\source\\repos\\IsuCorpTest\\IsuCorpTestRepository\\IsuCorpTestRepository.csproj": {
+              "projectPath": "C:\\Users\\Guest\\source\\repos\\IsuCorpTest\\IsuCorpTestRepository\\IsuCorpTestRepository.csproj"
+            },
+            "C:\\Users\\Guest\\source\\repos\\IsuCorpTest\\IsuCorpTestServices\\IsuCorpTestServices.csproj": {
+              "projectPath": "C:\\Users\\Guest\\source\\repos\\IsuCorpTest\\IsuCorpTestServices\\IsuCorpTestServices.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

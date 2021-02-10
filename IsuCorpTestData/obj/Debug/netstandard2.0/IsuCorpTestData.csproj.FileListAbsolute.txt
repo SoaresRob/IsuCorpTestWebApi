@@ -1,0 +1,4 @@
+C:\Users\Guest\source\repos\IsuCorpTest\IsuCorpTestData\obj\Debug\netstandard2.0\IsuCorpTestData.csprojAssemblyReference.cache
+C:\Users\Guest\source\repos\IsuCorpTest\IsuCorpTestData\obj\Debug\netstandard2.0\IsuCorpTestData.AssemblyInfoInputs.cache
+C:\Users\Guest\source\repos\IsuCorpTest\IsuCorpTestData\obj\Debug\netstandard2.0\IsuCorpTestData.AssemblyInfo.cs
+C:\Users\Guest\source\repos\IsuCorpTest\IsuCorpTestData\obj\Debug\netstandard2.0\IsuCorpTestData.csproj.CoreCompileInputs.cache

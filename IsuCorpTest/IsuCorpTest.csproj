@@ -16,4 +16,11 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\IsuCorpTestBusiness\IsuCorpTestBusiness.csproj" />
+    <ProjectReference Include="..\IsuCorpTestData\IsuCorpTestData.csproj" />
+    <ProjectReference Include="..\IsuCorpTestRepository\IsuCorpTestRepository.csproj" />
+    <ProjectReference Include="..\IsuCorpTestServices\IsuCorpTestServices.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,0 +1,9 @@
+C:\Users\Guest\source\repos\IsuCorpTest\IsuCorpTestData\bin\Debug\netstandard2.1\IsuCorpTestData.deps.json
+C:\Users\Guest\source\repos\IsuCorpTest\IsuCorpTestData\bin\Debug\netstandard2.1\IsuCorpTestData.dll
+C:\Users\Guest\source\repos\IsuCorpTest\IsuCorpTestData\bin\Debug\netstandard2.1\IsuCorpTestData.pdb
+C:\Users\Guest\source\repos\IsuCorpTest\IsuCorpTestData\obj\Debug\netstandard2.1\IsuCorpTestData.csprojAssemblyReference.cache
+C:\Users\Guest\source\repos\IsuCorpTest\IsuCorpTestData\obj\Debug\netstandard2.1\IsuCorpTestData.AssemblyInfoInputs.cache
+C:\Users\Guest\source\repos\IsuCorpTest\IsuCorpTestData\obj\Debug\netstandard2.1\IsuCorpTestData.AssemblyInfo.cs
+C:\Users\Guest\source\repos\IsuCorpTest\IsuCorpTestData\obj\Debug\netstandard2.1\IsuCorpTestData.csproj.CoreCompileInputs.cache
+C:\Users\Guest\source\repos\IsuCorpTest\IsuCorpTestData\obj\Debug\netstandard2.1\IsuCorpTestData.dll
+C:\Users\Guest\source\repos\IsuCorpTest\IsuCorpTestData\obj\Debug\netstandard2.1\IsuCorpTestData.pdb

@@ -14,6 +14,7 @@ import {ToastrService} from 'ngx-toastr';
 export class AddEditContactComponent implements OnInit {
   ContactId: number=0;
   ContactTypeList: any=[];
+  date: Date = new Date();
 
   constructor(public service: ContactService, private route: ActivatedRoute, 
     private shared: SharedService, private toastr:ToastrService) { 
@@ -21,6 +22,7 @@ export class AddEditContactComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.service.formData = new Contact();
     this.loadContactTypeList();
     if(this.ContactId != 0)
       this.populateForm(this.ContactId);
@@ -31,7 +33,11 @@ export class AddEditContactComponent implements OnInit {
       (data: any)=>
       { 
         this.service.formData = Object.assign({},data)
-      });
+      },
+      err => { 
+        this.toastr.error(err.error, 'Contact');
+       }
+      );
   }
 
   onSubmit(form: NgForm) {
@@ -47,7 +53,9 @@ export class AddEditContactComponent implements OnInit {
         this.resetForm(form);
         this.toastr.success('Submitted successfully', 'Contact');
       },
-      err => { console.log(err); }
+      err => { 
+        this.toastr.error(err.error, 'Contact');
+       }
     );
   }
 
@@ -57,7 +65,9 @@ export class AddEditContactComponent implements OnInit {
         this.resetForm(form);
         this.toastr.success('Updated successfully', 'Contact');
       },
-      err => { console.log(err); }
+      err => { 
+        this.toastr.error(err.error, 'Contact');
+       }
     );
   }
 

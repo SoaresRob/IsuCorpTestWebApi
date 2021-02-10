@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using IsuCorpTest.Context;
-using IsuCorpTest.Models;
 
 namespace IsuCorpTest.Controllers
 {
@@ -14,29 +8,31 @@ namespace IsuCorpTest.Controllers
     [ApiController]
     public class ContactTypesController : ControllerBase
     {
-        private readonly IsuCorpTestContext _context;
+        private readonly IsuCorpTestData.Context.IsuCorpTestContext context;
+        private readonly IsuCorpTestBusiness.ContactType contactTypeBusiness;
 
-        public ContactTypesController(IsuCorpTestContext context)
+        public ContactTypesController(IsuCorpTestData.Context.IsuCorpTestContext context)
         {
-            _context = context;
+            this.context = context;
+            contactTypeBusiness = new IsuCorpTestBusiness.ContactType(context);
         }
 
         // GET: api/ContactTypes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ContactType>>> GetContactType()
+        public async Task<IEnumerable<IsuCorpTestData.Models.ContactType>> GetContactType()
         {
-            return await _context.ContactType.ToListAsync();
+            return await contactTypeBusiness.GetAll();   
         }
 
         // GET: api/ContactTypes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ContactType>> GetContactType(long id)
+        public async Task<ActionResult<IsuCorpTestData.Models.ContactType>> GetContactType(long id)
         {
-            var contactType = await _context.ContactType.FindAsync(id);
+            var contactType = await contactTypeBusiness.GetByIdAsync(id);
 
             if (contactType == null)
             {
-                return NotFound();
+                return NotFound("Contact type not found");
             }
 
             return contactType;
@@ -45,29 +41,17 @@ namespace IsuCorpTest.Controllers
         // PUT: api/ContactTypes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutContactType(long id, ContactType contactType)
+        public async Task<IActionResult> PutContactType(long id, IsuCorpTestData.Models.ContactType contactType)
         {
             if (id != contactType.ContactTypeId)
             {
-                return BadRequest();
+                return BadRequest("Bad Request");
             }
 
-            _context.Entry(contactType).State = EntityState.Modified;
-
-            try
+            if (ModelState.IsValid)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ContactTypeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                contactTypeBusiness.Update(contactType);
+                await contactTypeBusiness.SaveChangeAsync();
             }
 
             return NoContent();
@@ -76,10 +60,13 @@ namespace IsuCorpTest.Controllers
         // POST: api/ContactTypes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ContactType>> PostContactType(ContactType contactType)
+        public async Task<ActionResult<IsuCorpTestData.Models.ContactType>> PostContactType(IsuCorpTestData.Models.ContactType contactType)
         {
-            _context.ContactType.Add(contactType);
-            await _context.SaveChangesAsync();
+            if (ModelState.IsValid)
+            {
+                contactTypeBusiness.Add(contactType);
+                await contactTypeBusiness.SaveChangeAsync();
+            }
 
             return CreatedAtAction("GetContactType", new { id = contactType.ContactTypeId }, contactType);
         }
@@ -88,21 +75,22 @@ namespace IsuCorpTest.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteContactType(long id)
         {
-            var contactType = await _context.ContactType.FindAsync(id);
+            var contactType = await contactTypeBusiness.GetByIdAsync(id);
+
             if (contactType == null)
             {
-                return NotFound();
+                return NotFound("Contact type not found");
             }
 
-            _context.ContactType.Remove(contactType);
-            await _context.SaveChangesAsync();
+            contactTypeBusiness.Remove(contactType);
+            await contactTypeBusiness.SaveChangeAsync();
 
             return NoContent();
         }
 
-        private bool ContactTypeExists(long id)
-        {
-            return _context.ContactType.Any(e => e.ContactTypeId == id);
-        }
+        //private bool ContactTypeExists(long id)
+        //{
+        //    return context.ContactType.Any(e => e.ContactTypeId == id);
+        //}
     }
 }
